@@ -35,6 +35,11 @@
     region: "{{ aws_region }}"
   register: security_group_info
 
+- name: Debug — entering EC2 launch task
+  debug:
+    msg: "Launching EC2 instance now..."
+
+
 - name: Launch EC2 Instances
   amazon.aws.ec2_instance:
     name: Ansible-created-instances
