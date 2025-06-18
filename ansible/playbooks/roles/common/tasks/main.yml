@@ -1,3 +1,38 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for common
+- name: Install Common Packages
+  become: true
+  apt:
+    name:
+      - apache2
+      - nodejs
+      - npm
+    state: present
+    update_cache: yes
+
+- name: Ensure rsync is installed (required for synchronize)
+  become: true
+  apt:
+    name: rsync
+    state: present
+
+- name: Start and enable Apache
+  become: true
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+
+- name: Copy source code
+  become: true
+  synchronize: 
+    src: "{{ playbook_dir }}/../../"
+    dest: "/opt/todo-app"
+    delete: yes
+    recursive: yes
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=.github"
+      - "--exclude=ansible"
+  delegate_to: localhost

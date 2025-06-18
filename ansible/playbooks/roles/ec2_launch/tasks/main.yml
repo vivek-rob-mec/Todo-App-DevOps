@@ -35,3 +35,27 @@
 - name: Debug EC2 launch result
   debug:
     var: ec2
+
+- name: Waiting for instance to be ready
+  wait_for:
+    host: "{{ ec2.instances[0].public_dns_name }}"
+    port: 22
+    delay: 30
+    timeout: 300
+    state: started
+  when: ec2.instances is defined and ec2.instances | length > 0
+
+- name: Add the EC2 instances to the inventory dynamically
+  add_host:
+    name: "{{ ec2.instances[0].public_dns_name }}"
+    groups: launched_ec2_instance
+    ansible_ssh_private_key_file: "{{ ec2_ssh_key_path }}"
+    ansible_user: ubuntu
+
+- name: Debug SSH Key Path
+  debug:
+    var: ec2_ssh_key_path
+
+- name: Debug dynamic inventory
+  debug:
+    var: groups['launched_ec2_instance']
