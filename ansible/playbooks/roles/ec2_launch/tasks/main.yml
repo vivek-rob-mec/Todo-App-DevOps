@@ -1,5 +1,4 @@
 #SPDX-License-Identifier: MIT-0
----
 # tasks file for ec2_launch
 # roles/ec2_launch/tasks/main.yml
 ---
