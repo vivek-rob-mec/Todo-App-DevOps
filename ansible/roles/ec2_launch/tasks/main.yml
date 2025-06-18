@@ -39,3 +39,7 @@
     count: 1
     security_group_id: "{{ security_group.group_id }}"
   register: ec2
+
+- name: Debug security group output
+  debug:
+    var: security_group
