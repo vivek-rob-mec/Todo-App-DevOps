@@ -1,46 +1,24 @@
-#SPDX-License-Identifier: MIT-0
----
-# tasks file for ec2_launch
-- name: Adding SSH access to a security group
+# roles/ec2_launch/tasks/main.yml
+- name: Add security group for EC2 instance
   amazon.aws.ec2_group:
     name: vivek-security
-    description: security group for EC2 instances launch
+    description: Security group for SSH and app access
     region: "{{ aws_region }}"
     rules:
-      - proto: tcp
-        from_port: 3001
-        to_port: 3001
-        cidr_ip: 0.0.0.0/0
       - proto: tcp
         from_port: 22
         to_port: 22
         cidr_ip: 0.0.0.0/0
       - proto: tcp
         from_port: 3000
-        to_port: 3000
-        cidr_ip: 0.0.0.0/0
-      - proto: tcp
-        from_port: 88
-        to_port: 88
+        to_port: 3001
         cidr_ip: 0.0.0.0/0
     rules_egress:
       - proto: all
         cidr_ip: 0.0.0.0/0
   register: security_group
 
-- name: Get security group info
-  amazon.aws.ec2_group_info:
-    filters:
-      group-name: vivek-security
-    region: "{{ aws_region }}"
-  register: security_group_info
-
-- name: Debug — entering EC2 launch task
-  debug:
-    msg: "Launching EC2 instance now..."
-
-
-- name: Launch EC2 Instances
+- name: Launch EC2 instance
   amazon.aws.ec2_instance:
     name: Ansible-created-instances
     key_name: "{{ ec2_key_name }}"
@@ -49,9 +27,9 @@
     image_id: "{{ ec2_ami_id }}"
     wait: yes
     count: 1
-    security_group_id: "{{ security_group_info.security_groups[0].group_id }}"
+    security_group_id: "{{ security_group.group_id }}"
   register: ec2
 
-- name: Debug EC2 instance info
+- name: Debug EC2 launch output
   debug:
     var: ec2
