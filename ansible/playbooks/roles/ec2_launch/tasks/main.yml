@@ -29,7 +29,7 @@
     count: 1
     network:
       assign_public_ip: true
-    security_group_id: "{{ security_group.group_id }}"
+    security_group: "vivek-security"
   register: ec2
 
 - name: Debug EC2 launch result
