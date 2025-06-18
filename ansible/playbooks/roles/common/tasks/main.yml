@@ -26,7 +26,7 @@
 
 - name: Copy source code
   become: true
-  synchronize: 
+  synchronize:
     src: "{{ playbook_dir }}/../../"
     dest: "/opt/todo-app"
     delete: yes
@@ -35,5 +35,6 @@
       - "--exclude=.git"
       - "--exclude=.github"
       - "--exclude=ansible"
-    _ssh_args: "-i {{ ec2_ssh_key_path }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    _ssh_args: "-i ~/.ssh/ec2_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
   delegate_to: localhost
+
