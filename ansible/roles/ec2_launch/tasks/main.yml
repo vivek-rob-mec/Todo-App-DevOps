@@ -5,7 +5,7 @@
   amazon.aws.ec2_group:
     name: vivek-security
     description: security group for EC2 instances launch
-    region: ap-south-1
+    region: "{{ aws_region }}"
     rules:
       - proto: tcp
         from_port: 3001
@@ -28,6 +28,13 @@
         cidr_ip: 0.0.0.0/0
   register: security_group
 
+- name: Get security group info
+  amazon.aws.ec2_group_info:
+    filters:
+      group-name: vivek-security
+    region: "{{ aws_region }}"
+  register: security_group_info
+
 - name: Launch EC2 Instances
   amazon.aws.ec2_instance:
     name: Ansible-created-instances
@@ -37,9 +44,9 @@
     image_id: "{{ ec2_ami_id }}"
     wait: yes
     count: 1
-    security_group_id: "{{ security_group.group_id }}"
+    security_group_id: "{{ security_group_info.security_groups[0].group_id }}"
   register: ec2
 
-- name: Debug security group output
+- name: Debug EC2 instance info
   debug:
-    var: security_group
+    var: ec2
