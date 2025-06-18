@@ -35,4 +35,5 @@
       - "--exclude=.git"
       - "--exclude=.github"
       - "--exclude=ansible"
+    ssh_args: "-i {{ ec2_ssh_key_path }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
   delegate_to: localhost
