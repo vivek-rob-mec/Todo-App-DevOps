@@ -1,0 +1,25 @@
+name: Provisioning of Amazon EC2 instance and Configuration management using Ansible.
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  provision_of_ec2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: action/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible boto3 requests
+          ansible galaxy collection install amazon.aws
+

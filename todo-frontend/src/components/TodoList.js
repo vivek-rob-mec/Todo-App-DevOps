@@ -39,6 +39,24 @@ const TodoList = () => {
         }
     }
 
+    const deleteTodos = async (id) => {
+    try {
+        const response = await fetch(`${BACKEND_URL}/delete-todo/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            // Remove deleted todo from state
+            setTodos((prev) => prev.filter(todo => todo._id !== id));
+            console.log("Todo deleted successfully");
+        } else {
+            console.error("Failed to delete todo");
+        }
+    } catch (error) {
+        console.error("Error while deleting the todo", error);
+    }
+};
+
     return (
         <div>
             <h1>
@@ -49,7 +67,8 @@ const TodoList = () => {
             <ul>
                 {
                     todos.map(todo => (
-                        <TodoItem key={todo._id} todo={todo}></TodoItem>
+                        <TodoItem key={todo._id} todo={todo} onDelete={deleteTodos} />
+                        
                     ))
                 }
             </ul>

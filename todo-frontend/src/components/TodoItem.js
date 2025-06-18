@@ -3,8 +3,9 @@ import React from "react"
 const TodoItem = ({todo, onDelete, onComplete}) => {
     return (
         <li>
-            {todo.title} {todo.completed}
-            <button>Delete</button>
+            <span>{todo.title}</span>{" "}
+            <span>{String(todo.completed)}</span>{" "}
+            <button onClick={() => onDelete(todo._id)}>Delete Todo</button>
         </li>
     )
 }
