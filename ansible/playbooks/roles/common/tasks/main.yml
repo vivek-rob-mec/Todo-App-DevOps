@@ -24,20 +24,28 @@
     state: started
     enabled: yes
 
-- name: Copy source code
+- name: Ensure target directory exists on EC2
+  become: true
+  file:
+    path: /opt/todo-app
+    state: directory
+    mode: '0755'
+
+- name: Copy source code from GitHub runner to EC2
   become: true
   synchronize:
-    src: "{{ playbook_dir }}/../../"
+    src: "{{ playbook_dir | realpath }}/../../"
     dest: "/opt/todo-app"
     delete: yes
     recursive: yes
-    _ssh_args: "-i /home/runner/.ssh/ec2_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
     rsync_opts:
       - "--exclude=.git"
       - "--exclude=.github"
       - "--exclude=ansible"
     rsync_path: "sudo rsync"
+    _ssh_args: "-i {{ ec2_ssh_key_path }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
   delegate_to: localhost
+
 
 
 
