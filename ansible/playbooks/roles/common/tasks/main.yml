@@ -31,12 +31,13 @@
     dest: "/opt/todo-app"
     delete: yes
     recursive: yes
-    ssh_args: "-i {{ ec2_ssh_key_path }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    _ssh_args: "-i /home/runner/.ssh/ec2_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
     rsync_opts:
       - "--exclude=.git"
       - "--exclude=.github"
       - "--exclude=ansible"
     rsync_path: "sudo rsync"
   delegate_to: localhost
+
 
 
