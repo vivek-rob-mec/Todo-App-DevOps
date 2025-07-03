@@ -16,6 +16,14 @@
     update_cache: yes
   loop: "{{ package_name }}"
 
+- name: Install npm separately (required for frontend)
+  become: true
+  apt:
+    name: npm
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+
 - name: Ensure rsync is installed (required for synchronize)
   become: true
   apt:
