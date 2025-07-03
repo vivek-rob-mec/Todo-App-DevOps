@@ -7,10 +7,10 @@ apache_package_name:
 
 node_package_name:
   Amazon: nodejs
-  Ubuntu: node_package_name
+  Ubuntu: nodejs
 
 package_name:
   - pk_names: "{{apache_package_name[ansible_distribution]}}"
   - pk_names: "{{node_package_name[ansible_distribution]}}"
   - pk_names: git
-  - pk_names: docker
+  - pk_names: docker.io
