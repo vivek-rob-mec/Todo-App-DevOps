@@ -9,8 +9,3 @@ node_package_name:
   Amazon: nodejs
   Ubuntu: nodejs
 
-package_name:
-  - "{{apache_package_name[ansible_distribution]}}"
-  - "{{node_package_name[ansible_distribution]}}"
-  - git
-  - docker.io

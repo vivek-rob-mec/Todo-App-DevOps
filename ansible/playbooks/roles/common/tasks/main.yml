@@ -1,6 +1,13 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for common
+- name: Set platform-specific package list
+  set_fact:
+    package_name:
+      - "{{ apache_package_name[ansible_distribution] }}"
+      - "{{ node_package_name[ansible_distribution] }}"
+      - git
+      - docker.io
 - name: Install Common Packages
   become: true
   apt:
