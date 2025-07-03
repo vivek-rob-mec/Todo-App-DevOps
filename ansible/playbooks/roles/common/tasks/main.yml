@@ -7,7 +7,7 @@
     name: "{ item.pk_names }"
     state: present
     update_cache: yes
-  with_items: "{{ package_name }}"
+  loop: "{{ package_name }}"
 
 - name: Ensure rsync is installed (required for synchronize)
   become: true
