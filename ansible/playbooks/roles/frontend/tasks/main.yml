@@ -9,12 +9,9 @@
 
 - name: Install frontend dependencies with npm
   become: true
+  command: npm install
   args:
     chdir: /opt/todo-app/todo-frontend
-  npm:
-    path: /opt/todo-app/todo-frontend
-    production: false
-
 
 - name: Build frontend
   become: true
