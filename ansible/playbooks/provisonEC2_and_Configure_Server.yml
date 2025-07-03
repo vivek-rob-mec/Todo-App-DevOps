@@ -12,5 +12,6 @@
   gather_facts: true
   roles:
     - common
+    - frontend
     - backend
     

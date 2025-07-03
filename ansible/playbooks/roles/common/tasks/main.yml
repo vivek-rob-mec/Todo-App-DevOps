@@ -4,12 +4,10 @@
 - name: Install Common Packages
   become: true
   apt:
-    name:
-      - apache2
-      - nodejs
-      - npm
+    name: "{ item.pk_names }"
     state: present
     update_cache: yes
+  with_items: "{{ package_name }}"
 
 - name: Ensure rsync is installed (required for synchronize)
   become: true
